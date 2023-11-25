@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo final Nico</title>
+
+
+
+<!-- Librería REACT -->       
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+
+<!-- Librería Babel para convertir JSX -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<title>Lista de tareas</title>
+<style>
+  * {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+body{
+    width: 100%;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxdy3dggVd6_CsZnEwrdbtTo0qC5U7OJ3ogA&usqp=CAU);
+    background-repeat: repeat round;
+    
+    }
+main {
+margin:0 auto;
+width: 700px;
+padding: 20px;
+background-color: #58f84a;
+}
+
+h1 {
+text-align: center;
+font-size: 30px;
+margin-bottom: 20px;
+}
+
+form {
+padding: 10px 8px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+form input {
+font-size: 30px;
+width: 200px;
+border-radius: 80px;
+padding: 5px 10px;
+border: 1px solid #9d97f0 ;
+}
+
+form button {
+font-size: 20px;
+color: white;
+width: 150px;
+border-radius: 80px;
+padding: 5px 10px;
+border: none;
+background-color: #9d97f0 ;
+cursor: pointer;
+margin-left: 10px;
+}
+ul {
+list-style-type: none;
+padding: 10px 0px;
+}
+
+li.destacar {
+color: rgb(68, 0, 255);
+}
+
+li {
+font-size: 20px;
+padding: 10px;
+border: 1px solid  #9d97f0 ; 
+border-radius: 5px;
+margin-bottom: 5px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+color:  #493EEB;
+}
+
+.cantidad {
+font-weight: bold;
+font-size: 30px;
+width: 50px;
+text-align: center;
+}
+
+.botones {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+height: 30px;
+width: 70px;
+gap: 10px;
+color:  #493EEB;
+}
+
+.botones button {
+width: 100%;
+height: 100%;
+border: none;
+background-color: #9d97f0 ;
+border-radius: 20px;
+cursor: pointer;
+color: white;
+}
+input{ height: 30px;
+    font-family:'Times New Roman', Times, serif;}
+.tilde {width: 60px;}
+</style>
+
+<script type="text/babel">
+    const { useState, useEffect } = React        
+
+    // App.jsx
+  
+    const datoIniciales = [
+    { id: 1, nombre: 'Leer el diario'},
+    { id: 2, nombre: 'Hacer Compras' },
+    { id: 3, nombre: 'Limpiar la casa' }
+    ]
+
+    function App() {
+    const [proximoID, setProximoID] = useState(4)
+    const [contadores, setContadores] = useState(datoIniciales)
+
+    function agregar(nombre) {
+        const nuevo = { id: proximoID, nombre,  }
+        setContadores([...contadores, nuevo])
+
+        setProximoID(proximoID + 1)
+    }
+    
+    function sumar(id) {
+        const actual = contadores.find(contador => contador.id === id) 
+        const nuevos = contadores.map(contador => contador.id === id ? nuevo : contador)
+        setContadores(nuevos)
+    }
+
+    function borrar(id) {
+        const borrados = contadores.filter(contador => contador.id !== id)
+        setContadores(borrados)
+    }
+
+    return (
+        <>
+        <main>
+            <h1>Lista de tareas</h1>
+            <ContadorForm alAgregar={agregar} />
+            <ContadorList contadores={contadores} alBorrar={borrar}/>
+        </main>
+        </>
+    )
+}
+    // ContadorForm.jsx
+
+    function ContadorForm({ alAgregar }) {
+    const [nombre, setNombre] = useState('')
+
+    function cambiar(evento) {
+        setNombre(evento.target.value)
+    }
+
+    function agregar(evento) {
+        alAgregar(nombre)
+        setNombre('')
+        evento.preventDefault()
+    }
+
+    return (
+        <form>
+        <input type="search" value={nombre} onChange={cambiar} placeholder="Nombre" />
+        <button onClick={agregar}>Agregar tarea</button>
+        </form>
+    )
+    }
+
+    // ContadorList.jsx
+        function ContadorList({ contadores, alSumar, alBorrar }) {
+        return (
+            <ul>
+            {contadores.map(contador => <ContadorItem
+                key={contador.id}
+                contador={contador}
+                alSumar={alSumar}
+                alBorrar={alBorrar} />)}
+            </ul>
+        );
+        }
+    // ContadorItem.jsx
+        function ContadorItem({ contador, alSumar, alBorrar }) {
+        const { id, nombre, cantidad } = contador;
+        const color = { color: cantidad < 10 ? 'blue' : 'red' };
+        return (
+            <li>
+            <span style={color}>{cantidad}</span>
+            <span>{nombre}</span>
+            <div className='botones'>
+                <input type="checkbox" class="tilde" name="" value="" />
+                <button onClick={() => alBorrar(id)}>x</button>
+                </div>
+            </li>
+        );
+        }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</head>
+
+<body>
+<div id="root"></div>
+</body>
+</html>
