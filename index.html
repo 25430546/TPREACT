@@ -30,7 +30,7 @@ body{
     }
 main {
 margin:0 auto;
-width: 700px;
+width: 300px;
 padding: 20px;
 background-color: #58f84a;
 }
@@ -57,7 +57,7 @@ border: 1px solid #9d97f0 ;
 }
 
 form button {
-font-size: 20px;
+font-size: 10px;
 color: white;
 width: 150px;
 border-radius: 80px;
@@ -180,6 +180,7 @@ input{ height: 30px;
     return (
         <form>
         <input type="search" value={nombre} onChange={cambiar} placeholder="Nombre" />
+        
         <button onClick={agregar}>Agregar tarea</button>
         </form>
     )
